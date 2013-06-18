@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ambitus test</title>
+</head>
+<body>
+
+    <div data-bind="template: { name: 'tpl-' + interval === 'day' ? 'week' : interval, data: data"></div>
+
+    <script id="tpl-week" type="text/html">
+        <table>
+            <thead>
+                <tr data-bind="foreach: days">
+                    <th data-bind="text: $data.format('ddd')"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-bind="foreach: days">
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </script>
+
+    <script id="tpl-month" type="text/html">
+        <table>
+            <thead>
+                <tr data-bind="foreach: days">
+                    <th data-bind="text: date.format('ddd')"></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: weeks">
+                <tr data-bind="foreach: days">
+                    <td data-bind="css: { 'inside': inside }, text: date.format('Do')"></td>
+                </tr>
+            </tbody>
+        </table>
+    </script>
+
+    <script>
+require = {
+    paths: {
+        'moment': 'bower/moment/moment',
+        'moment-range': 'bower/moment-range/lib/moment-range'
+    },
+    deps: [
+        'moment'
+    ],
+    callback: init
+};
+
+function init() {
+    require([
+        'ambitus'
+    ], function (Ambitus) {
+
+        var /*viewModel = {
+            ambitus: ko.observable(),
+            interval: ko.computed(function () {
+                return viewModel.ambitus().interval;
+            },
+            data: ko.computed(function () {
+                var range = viewModel.ambitus().range,
+                    data = {};
+
+                if (viewModel.interval() === 'month') {
+                    data.weeks = [];
+
+                    range.by('week', function () {
+
+                    });
+                } else {
+                    data.days = [];
+
+                    range.by('day', function (date) {
+                        data.days.push(date);
+                    });
+                }
+
+                return data;
+            })
+        },*/
+        ambitus = new Ambitus({
+
+        });
+
+        ambitus.interval('week');
+        ambitus.interval('month');
+        ambitus.interval('week');
+        ambitus.interval('month');
+
+        ambitus.next();
+
+        ambitus.interval('week');
+        ambitus.interval('month');
+        ambitus.interval('week');
+        ambitus.interval('month');
+    });
+}
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/2.2.1/knockout-min.js"></script>
+    <script src="bower/requirejs/require.js"></script>
+</body>
+</html>

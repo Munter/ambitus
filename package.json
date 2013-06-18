@@ -1,0 +1,21 @@
+{
+  "name": "ambitus",
+  "version": "0.0.0",
+  "description": "A calendar interval controller",
+  "main": "ambitus.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Munter/ambitus.git"
+  },
+  "keywords": [
+    "calendar",
+    "range",
+    "interval",
+    "moment"
+  ],
+  "author": "Peter Müller <munter@fumle.dk>",
+  "license": "MIT"
+}
