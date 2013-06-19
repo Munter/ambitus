@@ -1,10 +1,3 @@
-
-function log() {
-    Array.prototype.forEach.call(arguments, function (arg) {
-        console.log(JSON.stringify(arg));
-    });
-}
-
 define([
     'moment',
     'moment-range'
@@ -26,7 +19,6 @@ define([
 
         intervals.forEach(function (interval) {
             self.ranges[interval] = moment().range(moment().startOf(interval), moment().endOf(interval));
-            //log(self.ranges[range]);
         });
 
         self._change(self.ranges[self._interval].start, self.ranges[self._interval].end);
