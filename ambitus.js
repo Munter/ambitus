@@ -83,6 +83,12 @@ define([
             return self._change(start, end);
         },
 
+        today: function () {
+            var interval = this._interval;
+
+            this._change(moment().startOf(interval), moment().endOf(interval));
+        },
+
         _change: function (start, end, interval) {
             var self = this,
                 current = {
