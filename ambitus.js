@@ -86,7 +86,7 @@ define([
         today: function () {
             var interval = this._interval;
 
-            this._change(moment().startOf(interval), moment().endOf(interval));
+            return this._change(moment().startOf(interval), moment().endOf(interval));
         },
 
         _change: function (start, end, interval) {
