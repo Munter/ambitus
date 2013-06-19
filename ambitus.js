@@ -28,6 +28,8 @@ define([
             self.ranges[interval] = moment().range(moment().startOf(interval), moment().endOf(interval));
             //log(self.ranges[range]);
         });
+
+        self._change(self.ranges[self._interval].start, self.ranges[self._interval].end);
     }
 
     Ambitus.prototype = {
