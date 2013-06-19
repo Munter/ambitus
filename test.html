@@ -3,36 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <title>Ambitus test</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.0/pure-min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
 
-    <div data-bind="template: { name: 'tpl-' + (interval() === 'day' ? 'week' : interval()), data: data }"></div>
+    <button data-bind="click: ambitus.previous.bind(ambitus)">&laquo;</button>
+    <button data-bind="click: ambitus.next.bind(ambitus)">&raquo;</button>
+    <button data-bind="click: ambitus.today.bind(ambitus)">Today</button>
+
+    <div style="float:right">
+        <button data-bind="click: function () { ambitus.interval('day'); }">Day</button>
+        <button data-bind="click: function () { ambitus.interval('week'); }">Week</button>
+        <button data-bind="click: function () { ambitus.interval('month'); }">Month</button>
+    </div>
+
+    <div data-bind="template: { name: 'tpl-' + data().interval, data: data }"></div>
 
     <script id="tpl-week" type="text/html">
-        <table>
+        <table class="pure-table">
             <thead>
                 <tr data-bind="foreach: days">
-                    <th data-bind="text: $data.format('ddd')"></th>
+                    <th data-bind="text: $data.format('ddd MMM Do')"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr data-bind="foreach: days">
-                    <td></td>
+                    <td>Day content</td>
                 </tr>
             </tbody>
         </table>
     </script>
 
     <script id="tpl-month" type="text/html">
-        <table>
+        <table class="pure-table">
             <thead>
                 <tr data-bind="foreach: weeks[0].days">
-                    <th data-bind="text: $data.format('ddd')"></th>
+                    <th data-bind="text: $data.format('dddd')"></th>
                 </tr>
             </thead>
             <tbody data-bind="foreach: weeks">
                 <tr data-bind="foreach: days">
-                    <td data-bind="text: $data.format('Do')"></td>
+                    <td data-bind="text: $data.format('MMM Do')"></td>
                 </tr>
             </tbody>
         </table>
@@ -57,27 +73,31 @@ function init() {
 
         var obs = ko.observable(),
             ambitus = new Ambitus({
+                interval: 'week',
                 onChange: obs
             }),
             viewModel = {
+                ambitus: ambitus,
                 interval: ko.computed(function () {
                     return obs().interval;
                 }),
                 data: ko.computed(function () {
                     var range = obs().range,
-                        data = {};
+                        data = {
+                            interval: obs().interval
+                        };
 
-                    if (obs().interval === 'month') {
+                    if (data.interval === 'month') {
                         data.weeks = [];
 
-                        range.by('week', function (date) {
-                            var days = [];
+                        range.by('week', function (weekdate) {
+                            var days = [],
+                                range = moment().range(moment(weekdate).startOf('week'), moment(weekdate).endOf('week'));
+
                             data.weeks.push({
                                 days: days
                             });
-                            console.log(moment().range(date, date.endOf('week')))
-                            moment().range(date, date.endOf('week')).by('day', function (date) {
-                                console.log(date)
+                            range.by('day', function (date) {
                                 days.push(date);
                             })
                         });
@@ -88,7 +108,10 @@ function init() {
                             data.days.push(date);
                         });
                     }
-console.log(data);
+
+                    if (data.interval === 'day') {
+                        data.interval = 'week';
+                    }
                     return data;
                 })
             };
