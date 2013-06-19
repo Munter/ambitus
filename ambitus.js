@@ -5,7 +5,8 @@ define([
     var intervals = ['day', 'week', 'month'];
 
     function Ambitus(config) {
-        var self = this;
+        var self = this,
+            range;
 
         self.config = config || {};
 
@@ -15,13 +16,16 @@ define([
         // config.callback
 
         self._interval = self.config.interval || 'month';
+
         self.ranges = {};
 
         intervals.forEach(function (interval) {
             self.ranges[interval] = moment().range(moment().startOf(interval), moment().endOf(interval));
         });
 
-        self._change(self.ranges[self._interval].start, self.ranges[self._interval].end);
+        range = self.ranges[self._interval];
+
+        self._change(range.start, range.end);
     }
 
     Ambitus.prototype = {
@@ -94,10 +98,8 @@ define([
                 return false;
             }
 
-            self._interval = interval;
-            self.ranges[interval] = potential.range;
-
-            log(potential);
+            self._interval = potential.interval;
+            self.ranges[self._interval] = potential.range;
 
             if (typeof self.config.onChange === 'function') {
                 self.config.onChange(potential, current);
