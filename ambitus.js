@@ -103,10 +103,7 @@ define([
 
         _change: function (start, end, interval) {
             var self = this,
-                current = {
-                    interval: self._interval,
-                    range: self.ranges[self._interval]
-                },
+                current = self.get(),
                 potential = {
                     interval: interval || self._interval,
                     range: moment().range(start, end)
@@ -123,7 +120,7 @@ define([
                 self.config.onChange(potential, current);
             }
 
-            return potential.range;
+            return potential;
         }
     };
 
