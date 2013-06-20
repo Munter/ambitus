@@ -87,6 +87,20 @@ define([
             return this._change(moment().startOf(interval), moment().endOf(interval));
         },
 
+        go: function (date) {
+            var interval = this._interval;
+
+            return this._change(moment(date).startOf(interval), moment(date).endOf(interval));
+        },
+
+        get: function () {
+            var interval = this._interval;
+            return {
+                interval: interval,
+                range: this.ranges[interval]
+            };
+        },
+
         _change: function (start, end, interval) {
             var self = this,
                 current = {
