@@ -10,10 +10,8 @@ define([
 
         self.config = config || {};
 
-        // config.ignoreToday
         // config.weekStart
         // config.utc
-        // config.callback
 
         self._interval = self.config.interval || 'month';
 
