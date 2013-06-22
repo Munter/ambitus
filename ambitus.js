@@ -59,24 +59,18 @@ define([
 
         next: function () {
             var self = this,
-                interval = self._interval,
-                start = self.ranges[interval].start,
-                end = self.ranges[interval].end;
-
-            start = moment(end).add(1, 'milliseconds');
-            end = moment(start).endOf(interval);
+                value = self.get(),
+                start = moment(value.range.end).add(1, 'ms'),
+                end = moment(start).endOf(value.interval);
 
             return self._change(start, end);
         },
 
         previous: function () {
             var self = this,
-                interval = self._interval,
-                start = self.ranges[interval].start,
-                end = self.ranges[interval].end;
-
-            end = moment(start).subtract(1, 'milliseconds');
-            start = moment(end).startOf(interval);
+                value = self.get(),
+                end = moment(value.range.start).add(-1, 'ms'),
+                start = moment(end).startOf(value.interval);
 
             return self._change(start, end);
         },
