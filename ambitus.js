@@ -40,8 +40,8 @@
                 start,
                 end;
 
-            if (intervals.indexOf(interval) < 0) {
-                return false;
+            if (!potentialRange) {
+                return self.get();
             }
 
             if (interval === self._interval) {
@@ -102,21 +102,24 @@
 
         _change: function (start, end, interval) {
             var self = this,
+                config = self.config,
+                beforeChange = config.onBeforeChange,
+                change = config.onChange,
                 current = self.get(),
                 potential = {
                     interval: interval || self._interval,
                     range: moment().range(start, end)
                 };
 
-            if (typeof self.config.onBeforeChange === 'function' && !self.config.beforeChange(potential, current)) {
-                return false;
+            if (typeof beforeChange === 'function' && !beforeChange(potential, current)) {
+                return current;
             }
 
             self._interval = potential.interval;
             self.ranges[self._interval] = potential.range;
 
-            if (typeof self.config.onChange === 'function') {
-                self.config.onChange(potential, current);
+            if (typeof change === 'function') {
+                change(potential, current);
             }
 
             return potential;
