@@ -1,7 +1,12 @@
-define([
-    'moment',
-    'moment-range'
-], function (moment) {
+(function (root, factory) {
+    if (typeof exports === 'object') {
+        module.exports = factory(require('moment'), require('moment-range'));
+    } else if (typeof define === 'function' && define.amd) {
+        define(['moment', 'moment-range'], factory);
+    } else {
+        factory(root.moment);
+    }
+}(this, function (moment) {
     var intervals = ['day', 'week', 'month'];
 
     function Ambitus(config) {
@@ -119,4 +124,4 @@ define([
     };
 
     return Ambitus;
-});
+}));
