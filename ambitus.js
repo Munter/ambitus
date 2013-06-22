@@ -111,7 +111,7 @@
                     range: moment().range(start, end)
                 };
 
-            if (typeof beforeChange === 'function' && !beforeChange(potential, current)) {
+            if (typeof beforeChange === 'function' && beforeChange(potential, current) === false) {
                 return current;
             }
 
