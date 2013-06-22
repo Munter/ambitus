@@ -90,9 +90,6 @@ function init() {
             }),
             viewModel = {
                 ambitus: ambitus,
-                interval: ko.computed(function () {
-                    return obs().interval;
-                }),
                 data: ko.computed(function () {
                     var range = obs().range,
                         monthViewRange = moment().range(moment(range.start).startOf('week'), moment(range.end).endOf('week')),
