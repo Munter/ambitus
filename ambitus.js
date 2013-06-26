@@ -7,7 +7,30 @@
         factory(root.moment);
     }
 }(this, function (moment) {
-    var intervals = ['day', 'week', 'month'];
+    var intervals = ['day', 'week', 'month'],
+        change = function (self, start, end, interval) {
+            var config = self.config,
+                beforeChange = config.onBeforeChange,
+                change = config.onChange,
+                current = self.get(),
+                potential = {
+                    interval: interval || self._interval,
+                    range: moment().range(start, end)
+                };
+
+            if (typeof beforeChange === 'function' && beforeChange(potential, current) === false) {
+                return current;
+            }
+
+            self._interval = potential.interval;
+            self.ranges[self._interval] = potential.range;
+
+            if (typeof change === 'function') {
+                change(potential, current);
+            }
+
+            return potential;
+        };
 
     function Ambitus(config) {
         var self = this,
@@ -28,7 +51,7 @@
 
         range = self.ranges[self._interval];
 
-        self._change(range.start, range.end);
+        change(self, range.start, range.end);
     }
 
     Ambitus.prototype = {
@@ -59,7 +82,7 @@
                 end = moment(oldRange.start).endOf(interval);
             }
 
-            return self._change(start, end, interval);
+            return change(self, start, end, interval);
         },
 
         next: function () {
@@ -68,7 +91,7 @@
                 start = moment(value.range.end).add(1, 'ms'),
                 end = moment(start).endOf(value.interval);
 
-            return self._change(start, end);
+            return change(self, start, end);
         },
 
         previous: function () {
@@ -77,19 +100,19 @@
                 end = moment(value.range.start).add(-1, 'ms'),
                 start = moment(end).startOf(value.interval);
 
-            return self._change(start, end);
+            return change(self, start, end);
         },
 
         today: function () {
             var interval = this._interval;
 
-            return this._change(moment().startOf(interval), moment().endOf(interval));
+            return change(this, moment().startOf(interval), moment().endOf(interval));
         },
 
         go: function (date) {
             var interval = this._interval;
 
-            return this._change(moment(date).startOf(interval), moment(date).endOf(interval));
+            return change(this, moment(date).startOf(interval), moment(date).endOf(interval));
         },
 
         get: function () {
@@ -98,31 +121,6 @@
                 interval: interval,
                 range: this.ranges[interval]
             };
-        },
-
-        _change: function (start, end, interval) {
-            var self = this,
-                config = self.config,
-                beforeChange = config.onBeforeChange,
-                change = config.onChange,
-                current = self.get(),
-                potential = {
-                    interval: interval || self._interval,
-                    range: moment().range(start, end)
-                };
-
-            if (typeof beforeChange === 'function' && beforeChange(potential, current) === false) {
-                return current;
-            }
-
-            self._interval = potential.interval;
-            self.ranges[self._interval] = potential.range;
-
-            if (typeof change === 'function') {
-                change(potential, current);
-            }
-
-            return potential;
         }
     };
 
