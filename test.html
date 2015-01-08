@@ -39,6 +39,8 @@
 
     <div data-bind="template: { name: 'tpl-' + (data().days.length &gt; 7 ? 'month' : 'week'), data: data }"></div>
 
+    <div><span data-bind="text: data().range.start.format('YYYY-MM-DD')"></span> - <span data-bind="text: data().range.end.format('YYYY-MM-DD')"></span></div>
+
     <script id="tpl-week" type="text/html">
         <table class="pure-table">
             <thead>
