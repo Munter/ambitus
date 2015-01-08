@@ -3,25 +3,15 @@ Ambitus
 
 A stateful calendar control module providing intuitive range switching and navigation.
 
-Ambitus can be used to control standard calendar UIs that expose day/week/month views with functions to navigate to the next and previous inervals and to return to today.
+Ambitus can be used to control standard calendar UIs that expose day/week/month views with functions to navigate to the next and previous range and to return to today.
 
-The aim is to provide a user experience that shows the expected range, no matter what date interval size the user navigates or switches to. When switching from a bigger interval to a smaller one, the first day of the bigger is chosen and the wanted range that includes is returned. When switching from a smaller to a bigger range Ambitus tries to return to the previous selected one if there is a range overlap with the smaller one. The concept of 'today' is given special significance when switching interval size.
+The aim is to provide a user experience that shows the expected range, no matter what date interval size the user navigates or switches to. When switching from a bigger interval to a smaller one, the first day of the bigger is chosen and the wanted range that includes it is returned. When switching from a smaller to a bigger range Ambitus tries to return to the previous selected one if there is a range overlap with the smaller one. The concept of 'today' is given special significance when switching interval size.
 
-All methods in Ambitus return a date range object provided by [moment-range](https://github.com/gf3/moment-range), which provide you with all the richness of [moment](http://momentjs.com/) date object and some aditional range methods for your convenience.
+All dates returned by Ambitus are instances of [moment](http://momentjs.com/).
 
+All date ranges returned by Ambitus are instances of [moment-range](https://github.com/gf3/moment-range).
 
-Usage
------
-
-``` javascript
-var cal = new Ambitus();
-var range = cal.interval('month'); // Chose month interval (default)
-
-console.log(range); // This month
-console.log(cal.next()); // Next month
-console.log(cal.previous()); // This month
-console.log(cal.interval('week')); // This week
-```
+This gives you a very rich tool chain to work with the resulting ranges and dates.
 
 
 Configuration
@@ -29,20 +19,42 @@ Configuration
 
 ``` javascript
 new Ambitus({
-    ignoreToday: false, // Boolean, default false. Give special meaning to todays date when changing interval size down
-    interval: 'month', // String, values: 'day', 'week', 'month', default 'month'.
-    onBeforeChange: function (newState, oldState) {
-        console.log(newState); // { interval: 'month', range: moment().range(start, end) }
-        console.log(oldState); // { interval: 'month', range: moment().range(start, end) }
+    // Give special significance to today
+    ignoreToday: false,
 
-        return true; // return false to block the change
-    },
-    onChange: function (newState, oldState) {
-        console.log(newState); // { interval: 'month', range: moment().range(start, end) }
-        console.log(oldState); // { interval: 'month', range: moment().range(start, end) }
-    }
+    // Initial interval string
+    interval: 'month', // ['day', 'week', 'month']
+
+    // First day of week (TODO)
+    // weekstart: 0,
+
+    // Use UTC time (TODO)
+    // utc: false,
+
+    // Callback that is fired before the internal state changes
+    // Return false to block the change
+    onBeforeChange: function (newState, oldState) {},
+
+    // Callback that is fired when the internal state changes
+    onChange: function (newState, oldState) {}
 });
 ```
+
+
+Methods
+-----
+
+**`Amitus.get()`**: Returns the current value
+
+**`Amitus.interval(intervalString)`**: Switches the interval. `intervalString` may be `'day'`, `'week'` or `'month'`
+
+**`Amitus.next()`**: Switch to the next range.
+
+**`Amitus.previous()`**: Switch to the previous range.
+
+**`Amitus.today()`**: Jump directly to the range that contains todays date.
+
+**`Amitus.go(date)`**: Jump directly to an range including `date`. `date` may be any moment parseable value.
 
 
 Dependencies
