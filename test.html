@@ -121,6 +121,29 @@ function init() {
             };
 
         ko.applyBindings(viewModel);
+
+        window.addEventListener('keydown', function (e) {
+            switch (e.keyCode) {
+                case 39: // Right arrow
+                    ambitus.next();
+                    break;
+                case 37: // Left arrow
+                    ambitus.previous();
+                    break;
+                case 49: // 1
+                    ambitus.interval('day');
+                    break;
+                case 50: // 2
+                    ambitus.interval('week');
+                    break;
+                case 51: // 3
+                    ambitus.interval('month');
+                    break;
+                case 32: // Today
+                    ambitus.today();
+                    break;
+            }
+        });
     });
 }
     </script>
