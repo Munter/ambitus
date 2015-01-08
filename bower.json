@@ -1,15 +1,13 @@
 {
   "name": "ambitus",
-  "version": "0.0.0",
   "main": "ambitus.js",
   "ignore": [
     "**/.*",
     "node_modules",
-    "components"
+    "test"
   ],
   "dependencies": {
     "moment": "2.0.0",
-    "moment-range": "0.1.4",
-    "requirejs": "2.1.6"
+    "moment-range": "0.1.4"
   }
 }
