@@ -102,6 +102,7 @@ function init() {
                     var range = obs().range,
                         monthViewRange = moment().range(moment(range.start).startOf('week'), moment(range.end).endOf('week')),
                         data = {
+                            range: obs().range,
                             interval: obs().interval,
                             days: []
                         },
