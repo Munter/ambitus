@@ -1,3 +1,4 @@
+/*global define*/
 (function (root, factory) {
     if (typeof exports === 'object') {
         module.exports = factory(require('moment'), require('moment-range'));
