@@ -3,7 +3,7 @@ Ambitus
 
 [![NPM version](https://badge.fury.io/js/ambitus.svg)](http://badge.fury.io/js/ambitus)
 [![Build Status](https://travis-ci.org/Munter/ambitus.svg?branch=master)](https://travis-ci.org/Munter/ambitus)
-[![Coverage Status](https://img.shields.io/coveralls/Munter/ambitus.svg)](https://coveralls.io/r/Munter/ambitus?branch=master)
+[![Coverage Status](https://img.shields.io/coveralls/Munter/ambitus.svg?style=flat)](https://coveralls.io/r/Munter/ambitus?branch=master)
 [![Dependency Status](https://david-dm.org/Munter/ambitus.svg)](https://david-dm.org/Munter/ambitus)
 
 A stateful calendar control module providing intuitive range switching and navigation.
