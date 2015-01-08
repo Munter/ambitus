@@ -17,5 +17,11 @@
     "moment"
   ],
   "author": "Peter Müller <munter@fumle.dk>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "test": "jshint . --exclude-path .gitignore"
+  },
+  "devDependencies": {
+    "jshint": "^2.5.11",
+  }
 }
