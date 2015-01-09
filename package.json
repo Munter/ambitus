@@ -3,6 +3,9 @@
   "version": "0.2.0",
   "description": "A calendar interval controller",
   "main": "ambitus.js",
+  "files": [
+    "ambitus.js"
+  ],
   "scripts": {
     "lint": "jshint . --exclude-path .gitignore",
     "test": "npm run lint && mocha",
