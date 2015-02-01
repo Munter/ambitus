@@ -59,11 +59,10 @@ describe('API', function () {
                 onBeforeChange: stub
             });
 
-            // var before = instance.get();
             var result = instance.next();
 
             expect(stub, 'was called');
-            expect(result.range.contains(moment().add(7, 'days')), 'to be true');
+            expect(result.range.contains(moment().add(1, 'week')), 'to be true');
         });
 
         it('should call the onChange handler when changing the range', function () {
@@ -76,7 +75,7 @@ describe('API', function () {
             var result = instance.next();
 
             expect(stub, 'was called');
-            expect(result.range.contains(moment().add(7, 'days')), 'to be true');
+            expect(result.range.contains(moment().add(1, 'week')), 'to be true');
         });
 
         it('should not call the onChange handler when changing the range when onBeforeChange handler returns false', function () {
