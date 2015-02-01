@@ -69,7 +69,7 @@
             }
 
             if (interval === self._interval) {
-                return self.ranges[interval];
+                return self.get();
             }
 
             if (!self.config.ignoreToday && oldRange.contains(today)) {

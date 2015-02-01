@@ -6,6 +6,8 @@ var expect = require('unexpected').clone();
 require('moment-range');
 expect.installPlugin(require('unexpected-sinon'));
 
+var msPerDay = 24 * 60 * 60 * 1000;
+
 describe('API', function () {
     beforeEach(function () {
         this.instance = new Ambitus({
@@ -26,6 +28,28 @@ describe('API', function () {
         expect(Ambitus.prototype.go, 'to have arity', 1);
     });
 
+    describe('#interval', function () {
+        it('should return a day interval', function () {
+            var result = this.instance.interval('day');
+
+            expect(result.interval, 'to be', 'day');
+            expect(result.range.diff(), 'to be', msPerDay - 1);
+        });
+
+        it('should return a week interval', function () {
+            var result = this.instance.interval('week');
+
+            expect(result.interval, 'to be', 'week');
+            expect(result.range.diff(), 'to be', msPerDay * 7 - 1);
+        });
+
+        it('should return a month interval', function () {
+            var result = this.instance.interval('month');
+
+            expect(result.interval, 'to be', 'month');
+            expect(result.range.diff(), 'to be', msPerDay * 31 - 1);
+        });
+    });
 
     describe('event handling', function () {
         it('should call the onBeforeChange handler when changing the range', function () {
