@@ -11,23 +11,23 @@
     var intervals = ['day', 'week', 'month'],
         change = function (self, start, end, interval) {
             var config = self.config,
-                beforeChange = config.onBeforeChange,
-                change = config.onChange,
+                onbeforeChange = config.onBeforeChange,
+                onChange = config.onChange,
                 current = self.get(),
                 potential = {
                     interval: interval || self._interval,
                     range: moment().range(start, end)
                 };
 
-            if (typeof beforeChange === 'function' && beforeChange(potential, current) === false) {
+            if (typeof onbeforeChange === 'function' && onbeforeChange(potential, current) === false) {
                 return current;
             }
 
             self._interval = potential.interval;
             self.ranges[self._interval] = potential.range;
 
-            if (typeof change === 'function') {
-                change(potential, current);
+            if (typeof onChange === 'function') {
+                onChange(potential, current);
             }
 
             return potential;
