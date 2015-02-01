@@ -89,6 +89,146 @@ describe('API', function () {
         });
     });
 
+    describe('#go', function () {
+        it('should return a day interval with 2001-01-01 in it', function () {
+            this.instance.interval('day');
+
+            var result = this.instance.go('2001-01-01');
+
+            expect(result.interval, 'to be', 'day');
+            expect(result.range.diff(), 'to be', msPerDay - 1);
+            expect(result.range.contains(moment('2001-01-01')), 'to be true');
+        });
+
+        it('should return a week interval with 2001-01-01 in it', function () {
+            this.instance.interval('week');
+
+            var result = this.instance.go('2001-01-01');
+
+            expect(result.interval, 'to be', 'week');
+            expect(result.range.diff(), 'to be', msPerDay * 7 - 1);
+            expect(result.range.contains(moment('2001-01-01')), 'to be true');
+        });
+
+        it('should return a month interval with 2001-01-01 in it', function () {
+            this.instance.interval('month');
+
+            var result = this.instance.go('2001-01-01');
+
+            expect(result.interval, 'to be', 'month');
+            expect(result.range.diff(), 'to be', msPerDay * 31 - 1);
+            expect(result.range.contains(moment('2001-01-01')), 'to be true');
+        });
+    });
+
+    describe('#today', function () {
+        it('should return a day interval with Date.now() in it', function () {
+            this.instance.interval('day');
+
+            expect(this.instance.get().range.contains(Date.now()), 'to be false');
+
+            var result = this.instance.today();
+
+            expect(result.range.contains(Date.now()), 'to be true');
+        });
+
+        it('should return a week interval with Date.now() in it', function () {
+            this.instance.interval('week');
+
+            expect(this.instance.get().range.contains(Date.now()), 'to be false');
+
+            var result = this.instance.today();
+
+            expect(result.range.contains(Date.now()), 'to be true');
+        });
+
+        it('should return a month interval with Date.now() in it', function () {
+            this.instance.interval('month');
+
+            expect(this.instance.get().range.contains(Date.now()), 'to be false');
+
+            var result = this.instance.today();
+
+            expect(result.range.contains(Date.now()), 'to be true');
+        });
+    });
+
+    describe('#next', function () {
+        it('should return the next day interval', function () {
+            this.instance.interval('day');
+
+            var before = this.instance.go('2000-01-01');
+
+            expect(before.range.start.toString(), 'to equal', moment('2000-01-01').toString());
+
+            var result = this.instance.next();
+
+            expect(result.range.start.toString(), 'to equal', moment('2000-01-02').toString());
+        });
+
+        it('should return the next week interval', function () {
+            this.instance.interval('week');
+
+            var before = this.instance.go('2000-01-01');
+
+            expect(before.range.start.toString(), 'to equal', moment('1999-12-26').toString());
+
+            var result = this.instance.next();
+
+            expect(result.range.start.toString(), 'to equal', moment('2000-01-02').toString());
+        });
+
+        it('should return the next month interval', function () {
+            this.instance.interval('month');
+
+            var before = this.instance.go('2000-01-01');
+
+            expect(before.range.start.toString(), 'to equal', moment('2000-01-01').toString());
+
+            var result = this.instance.next();
+
+            expect(result.range.start.toString(), 'to equal', moment('2000-02-01').toString());
+        });
+    });
+
+    describe('#previous', function () {
+        it('should return the previous day interval', function () {
+            this.instance.interval('day');
+
+            var before = this.instance.go('2000-01-01');
+
+            expect(before.range.start.toString(), 'to equal', moment('2000-01-01').toString());
+
+            var result = this.instance.previous();
+
+            expect(result.range.start.toString(), 'to equal', moment('1999-12-31').toString());
+        });
+
+        it('should return the previous week interval', function () {
+            this.instance.interval('week');
+
+            var before = this.instance.go('2000-01-01');
+
+            expect(before.range.start.toString(), 'to equal', moment('1999-12-26').toString());
+
+            var result = this.instance.previous();
+
+            expect(result.range.start.toString(), 'to equal', moment('1999-12-19').toString());
+        });
+
+        it('should return the previous month interval', function () {
+            this.instance.interval('month');
+
+            var before = this.instance.go('2000-01-01');
+
+            expect(before.range.start.toString(), 'to equal', moment('2000-01-01').toString());
+
+            var result = this.instance.previous();
+
+            expect(result.range.start.toString(), 'to equal', moment('1999-12-01').toString());
+        });
+    });
+
     describe('event handling', function () {
         it('should call the onBeforeChange handler when changing the range', function () {
             var stub = sinon.stub();
