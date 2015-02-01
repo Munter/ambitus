@@ -51,6 +51,44 @@ describe('API', function () {
         });
     });
 
+    describe('#get', function () {
+        it('should return a day interval', function () {
+            this.instance.interval('day');
+
+            var result = this.instance.get();
+
+            expect(result.interval, 'to be', 'day');
+            expect(result.range.diff(), 'to be', msPerDay - 1);
+
+            expect(result.interval, 'to be', this.instance._interval);
+            expect(result.range, 'to be', this.instance.ranges.day);
+        });
+
+        it('should return a week interval', function () {
+            this.instance.interval('week');
+
+            var result = this.instance.get();
+
+            expect(result.interval, 'to be', 'week');
+            expect(result.range.diff(), 'to be', msPerDay * 7 - 1);
+
+            expect(result.interval, 'to be', this.instance._interval);
+            expect(result.range, 'to be', this.instance.ranges.week);
+        });
+
+        it('should return a month interval', function () {
+            this.instance.interval('month');
+
+            var result = this.instance.get();
+
+            expect(result.interval, 'to be', 'month');
+            expect(result.range.diff(), 'to be', msPerDay * 31 - 1);
+
+            expect(result.interval, 'to be', this.instance._interval);
+            expect(result.range, 'to be', this.instance.ranges.month);
+        });
+    });
+
     describe('event handling', function () {
         it('should call the onBeforeChange handler when changing the range', function () {
             var stub = sinon.stub();
