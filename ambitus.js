@@ -39,15 +39,14 @@
 
         self.config = config || {};
 
-        // config.weekStart
-        // config.utc
+        self.m = config.moment || moment;
 
         self._interval = self.config.interval || 'month';
 
         self.ranges = {};
 
         intervals.forEach(function (interval) {
-            self.ranges[interval] = moment().range(moment().startOf(interval), moment().endOf(interval));
+            self.ranges[interval] = self.m().range(self.m().startOf(interval), self.m().endOf(interval));
         });
 
         range = self.ranges[self._interval];
@@ -58,7 +57,7 @@
     Ambitus.prototype = {
         interval: function (interval) {
             var self = this,
-                today = moment(),
+                today = self.m(),
                 oldRange = self.ranges[self._interval],
                 potentialRange = self.ranges[interval],
                 start,
@@ -73,14 +72,14 @@
             }
 
             if (!self.config.ignoreToday && oldRange.contains(today)) {
-                start = moment(today).startOf(interval);
-                end = moment(today).endOf(interval);
+                start = self.m(today).startOf(interval);
+                end = self.m(today).endOf(interval);
             } else if (oldRange.contains(potentialRange.start) || oldRange.contains(potentialRange.end)) {
-                start = moment(potentialRange.start);
-                end = moment(potentialRange.end);
+                start = self.m(potentialRange.start);
+                end = self.m(potentialRange.end);
             } else {
-                start = moment(oldRange.start).startOf(interval);
-                end = moment(oldRange.start).endOf(interval);
+                start = self.m(oldRange.start).startOf(interval);
+                end = self.m(oldRange.start).endOf(interval);
             }
 
             return change(self, start, end, interval);
@@ -89,8 +88,8 @@
         next: function () {
             var self = this,
                 value = self.get(),
-                start = moment(value.range.end).add(1, 'ms'),
-                end = moment(start).endOf(value.interval);
+                start = self.m(value.range.end).add(1, 'ms'),
+                end = self.m(start).endOf(value.interval);
 
             return change(self, start, end);
         },
@@ -98,29 +97,32 @@
         previous: function () {
             var self = this,
                 value = self.get(),
-                end = moment(value.range.start).add(-1, 'ms'),
-                start = moment(end).startOf(value.interval);
+                end = self.m(value.range.start).add(-1, 'ms'),
+                start = self.m(end).startOf(value.interval);
 
             return change(self, start, end);
         },
 
         today: function () {
-            var interval = this._interval;
+            var self = this;
+            var interval = self._interval;
 
-            return change(this, moment().startOf(interval), moment().endOf(interval));
+            return change(self, self.m().startOf(interval), self.m().endOf(interval));
         },
 
         go: function (date) {
-            var interval = this._interval;
+            var self = this;
+            var interval = self._interval;
 
-            return change(this, moment(date).startOf(interval), moment(date).endOf(interval));
+            return change(self, self.m(date).startOf(interval), self.m(date).endOf(interval));
         },
 
         get: function () {
-            var interval = this._interval;
+            var self = this;
+            var interval = self._interval;
             return {
                 interval: interval,
-                range: this.ranges[interval]
+                range: self.ranges[interval]
             };
         }
     };
