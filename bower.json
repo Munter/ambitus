@@ -7,7 +7,7 @@
     "test"
   ],
   "dependencies": {
-    "moment": "2.0.0",
-    "moment-range": "0.1.4"
+    "moment": "^2.9.0",
+    "moment-range": "^1.0.5"
   }
 }
