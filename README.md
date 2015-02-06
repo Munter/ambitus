@@ -30,11 +30,10 @@ new Ambitus({
     // Initial interval string
     interval: 'month', // ['day', 'week', 'month']
 
-    // First day of week (TODO)
-    // weekstart: 0,
-
-    // Use UTC time (TODO)
-    // utc: false,
+    // Custom moment getter
+    moment: function (input) {
+        return moment(input).utc().locale('da');
+    },
 
     // Callback that is fired before the internal state changes
     // Return false to block the change
@@ -61,17 +60,42 @@ Methods
 
 **`Amitus.go(date)`**: Jump directly to an range including `date`. `date` may be any moment parseable value.
 
+All methods return the same state object that get passed into the `onBeforeChange` and `onChange` event handlers:
+
+```javascript
+{
+    interval: 'week', // Possible values: ['day', 'week', 'month']
+    range: moment.range(start, end) // Range desribing the current interval start end end date
+}
+```
+
+
+Locales and Timezones
+---------------------
+
+Ambitus will default to use the globally configured moment constructors. So if you already have your moment constructor set up, Ambitus will do what you want.
+
+If you need Ambitus to use a different time zone or locale than your globally defined one, you can pass in the `moment` configuration option. This should be a function that takes a normal moment input and returns your preferred moment instance.
+
+Examples
+~~~~~~~~
+
+**UTC**: `function (input) { return moment(input).utc(); }`
+**Danish locale**: `function (input) { return moment(input).locale('da'); }`
+**UTC and German locale**: `function (input) { return moment(input).utc().locale('de'); }`
+
+Setting the locale like in these examples requires that the locale you want to switch to is already installed. Please refer to the [moment-timezone documentation](http://momentjs.com/docs/#/i18n/instance-locale/)
+
+
+Week start and Week number
+--------------------------
+
+The first day of a week and week numbering can be configured through the `moment.locale` settings. See the section above
+
 
 Dependencies
 ------------
 [moment](http://momentjs.com/) and [moment-range](https://github.com/gf3/moment-range). Both can be installed using bower. See [test.html](https://github.com/Munter/ambitus/blob/master/test.html) for example configuration.
-
-
-Todo
-----
-
- * Config: UTC dates
- * Config: First day of week
 
 
 License
