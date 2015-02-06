@@ -77,11 +77,13 @@ Ambitus will default to use the globally configured moment constructors. So if y
 
 If you need Ambitus to use a different time zone or locale than your globally defined one, you can pass in the `moment` configuration option. This should be a function that takes a normal moment input and returns your preferred moment instance.
 
-Examples
-~~~~~~~~
+### Examples
+
 
 **UTC**: `function (input) { return moment(input).utc(); }`
+
 **Danish locale**: `function (input) { return moment(input).locale('da'); }`
+
 **UTC and German locale**: `function (input) { return moment(input).utc().locale('de'); }`
 
 Setting the locale like in these examples requires that the locale you want to switch to is already installed. Please refer to the [moment-timezone documentation](http://momentjs.com/docs/#/i18n/instance-locale/)
