@@ -25,7 +25,7 @@ describe('API', function () {
         expect(Ambitus.prototype.next, 'to have arity', 0);
         expect(Ambitus.prototype.previous, 'to have arity', 0);
         expect(Ambitus.prototype.today, 'to have arity', 0);
-        expect(Ambitus.prototype.go, 'to have arity', 1);
+        expect(Ambitus.prototype.go, 'to have arity', 2);
     });
 
     describe('#interval', function () {

@@ -34,24 +34,19 @@
         };
 
     function Ambitus(config) {
-        var self = this,
-            range;
+        var self = this;
 
         self.config = config || {};
 
         self.m = config.moment || moment;
-
         self._interval = self.config.interval || 'month';
 
         self.ranges = {};
-
         intervals.forEach(function (interval) {
             self.ranges[interval] = self.m().range(self.m().startOf(interval), self.m().endOf(interval));
         });
 
-        range = self.ranges[self._interval];
-
-        change(self, range.start, range.end);
+        self.go(self.m(self.config.date), self._interval);
     }
 
     Ambitus.prototype = {
@@ -110,9 +105,9 @@
             return change(self, self.m().startOf(interval), self.m().endOf(interval));
         },
 
-        go: function (date) {
+        go: function (date, interval) {
             var self = this;
-            var interval = self._interval;
+            interval = interval || self._interval;
 
             return change(self, self.m(date).startOf(interval), self.m(date).endOf(interval));
         },
