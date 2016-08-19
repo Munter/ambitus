@@ -33,7 +33,7 @@
     "requirejs": "^2.1.15",
     "sinon": "^1.12.2",
     "unexpected": "^5.1.6",
-    "unexpected-sinon": "^5.0.0"
+    "unexpected-sinon": "^10.3.0"
   },
   "dependencies": {
     "moment": "^2.9.0",
